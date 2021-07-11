@@ -1,0 +1,5 @@
+name: reinforce_tianshou
+channels:
+  - defaults
+dependencies:
+  - python=3.9

@@ -1,0 +1,6 @@
+ipykernel==6.0.1
+gym==0.18.3
+torch
+torchvision
+torchaudio
+tianshou
