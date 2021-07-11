@@ -1,4 +1,5 @@
 #%% Implementation of my reinforce in tianshou framework
+# -Andriy Drozdyuk
 import gym, torch, numpy as np, tianshou as ts
 from typing import Any, Dict, Union, Callable, Optional
 from torch import nn
