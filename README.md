@@ -1,6 +1,6 @@
 # Reinforce Tianshou
 
-My implementation of REINFORCE RL algorithm with the help of tianshou framework.
+My implementation of REINFORCE RL algorithm with the help of [tianshou](https://github.com/thu-ml/tianshou) reinforcement learning framework.
 This builds on top of my implementation using only PyTorch here: https://github.com/drozzy/reinforce
 
 The `reinforce_tianshou.py` script trains an agent to solve a `CartPole-v0` environment and then renders a few episodes with a trained agent.
