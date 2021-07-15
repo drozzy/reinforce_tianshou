@@ -59,11 +59,10 @@ class Reinforce(BasePolicy):
         EligibilityVector = dist.log_prob(act)
         
         DiscountedReturns = []
-        for t in range(len((rew))):
+        for t in range(len(rew)):
             G = 0.0
             for k, r in enumerate(rew[t:]):
                 G += (γ**k)*r
-            G = (γ**t)*G
             DiscountedReturns.append(G)
 
         DiscountedReturns = torch.tensor(DiscountedReturns, dtype=torch.float)
