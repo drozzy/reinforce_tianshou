@@ -76,8 +76,7 @@ class Reinforce(BasePolicy):
         return {'loss': loss.item()}
 
 policy = Reinforce(net, optim, state_shape, action_shape)
-collector = ts.data.Collector(policy, env, 
-    ts.data.VectorReplayBuffer(MAX_BUFFER_SIZE, buffer_num=1))
+collector = ts.data.Collector(policy, env, ts.data.ReplayBuffer(MAX_BUFFER_SIZE))
 
 def train(policy, collector:Collector, batch_size):   
     collector.reset_stat()
