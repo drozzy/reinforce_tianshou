@@ -8,8 +8,8 @@ The code trains an agent to solve a `CartPole-v0` environment and then renders a
 ## Contents:
 
 1. The `reinforce_tianshou.py` is the complete example.
-1. The `reinforce_tianshou_no_trainer.py` shows how things would look without a trainer.
-2. The `reinforce_tianshou_no_trainer_no_net_.py`shows things without a trainer and a built-in network.
+1. The `intermediate_steps/reinforce_tianshou_no_trainer.py` shows how things would look without a trainer.
+2. The `intermediate_steps/reinforce_tianshou_no_trainer_no_net.py`shows things without a trainer and a built-in network.
 
 ## Install
 

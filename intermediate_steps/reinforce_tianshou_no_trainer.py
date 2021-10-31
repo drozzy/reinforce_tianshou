@@ -1,5 +1,5 @@
 #%% Implementation of my reinforce in tianshou framework
-# Uses following parts from Tianshou framework:
+# Uses only the following parts from Tianshou framework:
 # 1. Policy
 # 2. Collector
 # 3. Policy Neural Network
