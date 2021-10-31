@@ -1,12 +1,18 @@
 #%% Implementation of my reinforce in tianshou framework
+# Uses following parts from Tianshou framework:
+# 1. Policy
+# 2. Collector
+# 3. Policy Neural Network
+#
 # -Andriy Drozdyuk
-import gym, torch, tianshou as ts
-from tianshou.data import Batch
+import gym, torch, numpy as np, tianshou as ts
+from typing import Any, Dict, Union, Callable, Optional
+from torch import nn
+from tianshou.data import Batch, Collector
+from tianshou.policy import BasePolicy
 from tianshou.utils.net.common import Net
-from tianshou.trainer.onpolicy import onpolicy_trainer
 
-MAX_EPOCH = 50
-STEPS_PER_EPOCH = 1_000
+MAX_STEPS = 50_000
 BATCH_SIZE = 1
 LR = 0.005
 γ = 0.9999
@@ -15,13 +21,15 @@ MAX_BUFFER_SIZE = 20_000 # This is max size of the buffer. In my case it only ne
 
 env = gym.make('CartPole-v0') # will be wrapped in DummyVecEnv automatically
 
+
+
 state_shape = env.observation_space.shape or env.observation_space.n
 action_shape = env.action_space.shape or env.action_space.n
-net = Net(state_shape, action_shape, hidden_sizes=[64])
+net = Net(state_shape, action_shape)
 optim = torch.optim.Adam(net.parameters(), lr=LR)
+net = Net(state_shape, action_shape, hidden_sizes=[64])
 
-
-class Reinforce(ts.policy.BasePolicy):
+class Reinforce(BasePolicy):
     def __init__(self, nn, optim, observation_space, action_space):
         super().__init__(observation_space, action_space)
         self.nn = nn
@@ -63,14 +71,31 @@ class Reinforce(ts.policy.BasePolicy):
         return {'loss': loss.item()}
 
 policy = Reinforce(net, optim, state_shape, action_shape)
-train_collector = ts.data.Collector(policy, env, ts.data.ReplayBuffer(MAX_BUFFER_SIZE))
-test_collector = ts.data.Collector(policy, env, ts.data.ReplayBuffer(MAX_BUFFER_SIZE))
+collector = ts.data.Collector(policy, env, 
+    ts.data.VectorReplayBuffer(MAX_BUFFER_SIZE, buffer_num=1))
 
-result = onpolicy_trainer(policy, train_collector, test_collector, 
-    max_epoch=MAX_EPOCH, step_per_epoch=STEPS_PER_EPOCH,
-    repeat_per_collect=1, episode_per_test=10,
-    episode_per_collect=1, batch_size=BATCH_SIZE)
+def train(policy, collector:Collector, batch_size):   
+    collector.reset_stat()
     
+    step = 0
+
+    while step <= MAX_STEPS:
+        policy.train() # Switch nn mode to train
+      
+        result = collector.collect(n_episode=1)
+        
+        step += int(result["n/st"])
+        
+        reward = result['rews'][0] # Since we only have one episode
+        
+        USE_ALL_BUFFER_DATA = 0
+        losses = policy.update(USE_ALL_BUFFER_DATA, collector.buffer, batch_size=batch_size, repeat=1)
+        
+        collector.reset_buffer()
+        print(f'Step: {step}: Reward: {reward} ')
+
+train(policy, collector, BATCH_SIZE)
+
 FPS = 1/60.0
-train_collector.collect(n_episode=5, render=FPS)
+collector.collect(n_episode=5, render=FPS)
 # %%
