@@ -17,8 +17,7 @@ MAX_STEPS = 50_000
 BATCH_SIZE = 1
 LR = 0.005
 γ = 0.9999
-MAX_BUFFER_SIZE = 20_000 # This is max size of the buffer. In my case it only needs to be as long as a single episode
-                         # as I clear the buffer after every episode
+MAX_BUFFER_SIZE = 20_000 
 
 env = gym.make('CartPole-v0') # will be wrapped in DummyVecEnv automatically
 
@@ -77,9 +76,8 @@ class Reinforce(BasePolicy):
 
         self.optim.zero_grad()
         loss.backward()
-        optim.step()
+        self.optim.step()
 
-        print(f'Reward={sum(rew)}')        
         return {'loss': loss.item()}
 
 policy = Reinforce(net, optim, state_shape, action_shape)

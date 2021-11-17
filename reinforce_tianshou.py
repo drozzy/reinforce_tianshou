@@ -57,7 +57,7 @@ class Reinforce(ts.policy.BasePolicy):
 
         self.optim.zero_grad()
         loss.backward()
-        optim.step()
+        self.optim.step()
 
         print(f'Reward={sum(rew)}')        
         return {'loss': loss.item()}
