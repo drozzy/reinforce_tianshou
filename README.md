@@ -10,6 +10,8 @@ The code trains an agent to solve a `CartPole-v0` environment and then renders a
 1. The `reinforce_tianshou.py` is the complete example.
 1. The `intermediate_steps/reinforce_tianshou_no_trainer.py` shows how things would look without a trainer.
 2. The `intermediate_steps/reinforce_tianshou_no_trainer_no_net.py`shows things without a trainer and a built-in network.
+3. The `intermediate_steps/reinforce_tianshou_no_net.py` shows how to create a custom network and a custom policy, while using built-in trainer.
+4. The `slides_code/policy_component.py` - shows an example of calling a built-in policy on an observation from CartPole environment.
 
 ## Install
 
