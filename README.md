@@ -5,6 +5,10 @@ This builds on top of my implementation using only PyTorch here: https://github.
 
 The code trains an agent to solve a `CartPole-v0` environment and then renders a few episodes with a trained agent.
 
+## Video Explanation
+
+See my video here: [Tianshou: Best RL Framework You Never Heard Of](https://www.youtube.com/watch?v=fdWHj970FfY)
+
 ## Contents:
 
 1. The `reinforce_tianshou.py` is the complete example.
